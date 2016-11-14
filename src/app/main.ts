@@ -7,22 +7,6 @@ class MainController extends Scroller {
 	constructor (protected angularSmoothScroller: SmoothScroller) {
 		super(angularSmoothScroller);
 	}
-
-	protected getItemByIndex (index: number): HTMLElement {
-		let $elements = document.querySelectorAll('.scrollable .techs fountain-tech');
-		let $el;
-
-		if ($elements.length) {
-			for (let i = 0; i < $elements.length; i++) {
-				if (i === index) {
-					$el = $elements[i];
-					break;
-				}
-			}
-		}
-
-		return $el;
-	}
 }
 
 export const main: angular.IComponentOptions = {

@@ -1,4 +1,4 @@
-import * as angular from 'angular';
+import * as ng from 'angular';
 import {Scroller} from './scroller';
 import {SmoothScroller} from './angular-smooth-scroller/index';
 
@@ -24,7 +24,7 @@ class TitleController extends Scroller {
 	}
 }
 
-export const title: angular.IComponentOptions = {
+export const title: ng.IComponentOptions = {
   template: require('./title.html'),
   controller: TitleController,
   controllerAs: '$titleCtrl'

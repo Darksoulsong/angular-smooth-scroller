@@ -32,9 +32,10 @@ export class Scroller {
 	}
 
 	private doPageScroll (item: string) {
-        let $el = document.querySelectorAll(`.${item} toolbar`);
+        const $el = document.querySelector(`.${item}.toolbar`);
 
-		console.log(`page scroll: ${$el}`);
+		this.angularSmoothScroller.setScrollableContainer('body');
+		this.angularSmoothScroller.scrollTo($el as HTMLElement, 1000, 10);
 	}
 
 	private doRestrictedScroll (idx: string) {
@@ -42,9 +43,7 @@ export class Scroller {
 		const itemIndex = parseInt(idx, 10) - 1;
 		const $el = this.getItemByIndex(itemIndex, containerElementSelector);
 
-        this.angularSmoothScroller.setMainContainer('.scrollable .scrollable-body');
-        this.angularSmoothScroller.scrollTo($el, 1000, 100);
-
-		console.log(`restricted scroll: element: ${$el}`);
+        this.angularSmoothScroller.setScrollableContainer('.scrollable .scrollable-body');
+        this.angularSmoothScroller.scrollTo($el, 1000, 10);
 	}
 }
