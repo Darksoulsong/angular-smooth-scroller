@@ -1,0 +1,9 @@
+.tmp/
+coverage/
+dist/
+node_modules/
+typings/
+.npmrc
+.typingsrc
+.vscode/
+.yo-rc.json
