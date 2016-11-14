@@ -1,6 +1,8 @@
 import {Easing} from './easing-functions';
 
 export class SmoothScroller {
+	static $inject = ['$q', '$window'];
+
 	mainContainer: HTMLElement;
 
 	constructor (private $q: ng.IQService, private $window: any) {
@@ -11,7 +13,7 @@ export class SmoothScroller {
 		let container;
 
 		if (typeof containerElementId === 'string') {
-			container = document.getElementById(containerElementId);
+			container = document.querySelector(containerElementId);
 		}
 		if (this.isHTMLElement(containerElementId)) {
 			container = containerElementId;
@@ -23,19 +25,18 @@ export class SmoothScroller {
 		this.mainContainer = container;
 	}
 
-	scrollTo (elementId: string, speed: number, offset: number, easingFn: string) {
-		let element = document.getElementById(elementId);
+	scrollTo (el: string | HTMLElement, speed: number, offset: number = 0, easingFn: string = 'easeInOutQuint') {
+		let element = typeof el === 'string' ? document.querySelector(el) : el;
 		let startY;
 		let stopY;
 		let distance;
 		let deferred = this.$q.defer();
 
 		this.mainContainer = this.mainContainer || this.$window;
-		offset = offset || 0;
-		easingFn = easingFn || 'easeInOutQuint';
 
 		if (element) {
-			startY = this.getPosition(this.mainContainer);
+			// startY = this.getPosition(this.mainContainer);
+			startY = this.getPosition(element as HTMLElement);
 			stopY = this.getElementY(element);
 			distance = stopY > startY ? stopY - startY : startY - stopY;
 
@@ -56,11 +57,13 @@ export class SmoothScroller {
      * http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
      */
     private requestAnimationFrameShim () {
-        this.$window.requestAnimationFrame = (function doShim () {
+		var self = this;
+
+        this.$window.requestAnimationFrame = (() => {
             return this.$window.requestAnimationFrame    ||
                 this.$window.webkitRequestAnimationFrame ||
                 function (callback: Function) {
-                    this.$window.setTimeout(callback, 1000 / 60);
+                    self.$window.setTimeout(callback, 1000 / 60);
                 };
         })();
     }
@@ -73,8 +76,12 @@ export class SmoothScroller {
         return el.constructor.name === 'Object' && 'bind' in el;
     }
 
-	private getPosition (container: any): number {
-		return container.pageYOffset || container.scrollTop;
+	private getPosition (container: HTMLElement | Window): number {
+		if (container instanceof Window) {
+			return container.pageYOffset;
+		}
+		return container.scrollTop;
+		// return container.getBoundingClientRect().top;
 	}
 
 	private elementHasScrollbar (el: HTMLElement | Node, horizontal?: boolean): boolean {
@@ -107,14 +114,16 @@ export class SmoothScroller {
 	/**
 	 * Main method 
 	 */
-	private scrollToY (scrollTargetY: number, speed: number, easing: string, callback: Function) {
+	private scrollToY (scrollTargetY: number = 0, speed: number = 2000, easing: string = 'easeOutSine', callback: Function) {
 		this.mainContainer = this.mainContainer || this.$window;
 
+		const self = this;
 		let deferred = this.$q.defer();
 		let currentTime = 0;
 		let time;
 		let PI_D2;
 		let easingEquations = new Easing();
+		let easingOptions = [];
 		let scrollY = (() => {
             if (this.mainContainer instanceof Window) {
                 return this.mainContainer.scrollY;
@@ -122,22 +131,21 @@ export class SmoothScroller {
             return this.mainContainer.scrollTop;
         })();
 
-		scrollTargetY = scrollTargetY || 0;
-		speed = speed || 2000;
-		easing = easing || 'easeOutSine';
-
 		// min time .1, max time .8 seconds
 		time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / speed, 0.8));
 
 		// easing equations from https://github.com/danro/easing-js/blob/master/easing.js
 		PI_D2 = Math.PI / 2;
 
+		(function getEasingOptions () {
+			for (let key in easingEquations) {
+				easingOptions.push(key);
+			}
+		})();
+
 		(function checkEasing (easingOpt: string) {
-			if (!easingEquations.hasOwnProperty(easingOpt)) {
-                throw new Error(`
-                    Invalid easing option ${easingOpt}.
-                    Try ${Object.keys(easingEquations).join(' or ')} instead.
-                `);
+			if ((easingOpt in easingEquations) === false) {
+                throw new Error(`Invalid easing option ${easingOpt}.Try ${easingOptions.join(' or ')} instead.`);
 			}
 		})(easing);
 
@@ -150,10 +158,10 @@ export class SmoothScroller {
 			var t = easingEquations[easing](p);
 
 			if (p < 1) {
-				this.$window.requestAnimationFrame(tick);
-				this.mainContainer.scrollTop = scrollY + ((scrollTargetY - scrollY) * t);
+				self.$window.requestAnimationFrame(tick);
+				self.mainContainer.scrollTop = scrollY + ((scrollTargetY - scrollY) * t);
 			} else {
-				this.mainContainer.scrollTop = scrollTargetY;
+				self.mainContainer.scrollTop = scrollTargetY;
 				if (typeof callback !== 'undefined') {
 					callback(scrollTargetY);
 				} else {

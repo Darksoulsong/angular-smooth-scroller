@@ -1,24 +1,28 @@
-class MainController {
-	doScroll (item: string) {
-		let isPageScroll = item === 'top' || item === 'bottom';
+import {SmoothScroller} from './angular-smooth-scroller/index';
+import {Scroller} from './scroller';
 
-		if (isPageScroll) {
-			this.doPageScroll();
-		} else {
-			this.doRestrictedScroll(item);
+class MainController extends Scroller {
+	static $inject = ['angularSmoothScroller'];
+
+	constructor (protected angularSmoothScroller: SmoothScroller) {
+		super(angularSmoothScroller);
+	}
+
+	protected getItemByIndex (index: number): HTMLElement {
+		let $elements = document.querySelectorAll('.scrollable .techs fountain-tech');
+		let $el;
+
+		if ($elements.length) {
+			for (let i = 0; i < $elements.length; i++) {
+				if (i === index) {
+					$el = $elements[i];
+					break;
+				}
+			}
 		}
-	}
 
-	private doPageScroll () {
-		console.log('page scroll');
+		return $el;
 	}
-
-	private doRestrictedScroll (idx: string) {
-		let itemIndex = parseInt(idx, 10) - 1;
-		// let $el = document.querySelectorAll();
-		console.log('restricted scroll');
-	}
-
 }
 
 export const main: angular.IComponentOptions = {

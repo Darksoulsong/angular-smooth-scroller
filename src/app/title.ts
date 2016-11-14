@@ -1,21 +1,31 @@
 import * as angular from 'angular';
+import {Scroller} from './scroller';
+import {SmoothScroller} from './angular-smooth-scroller/index';
 
-class TitleController {
-  MainController;
-  doScroll;
-  doRestrictedScroll;
+class TitleController extends Scroller {
+	constructor (protected angularSmoothScroller: SmoothScroller) {
+		super(angularSmoothScroller);
+	}
 
-  $onInit () {
-    this.doScroll = this.MainController.doScroll;
-    this.doRestrictedScroll = this.MainController.doRestrictedScroll;
-  }
+  	protected getItemByIndex (index: number, containerElementSelector: string): HTMLElement {
+		let $elements = document.querySelectorAll(containerElementSelector);
+		let $el;
+
+		if ($elements.length) {
+			for (let i = 0; i < $elements.length; i++) {
+				if (i === index) {
+					$el = $elements[i];
+					break;
+				}
+			}
+		}
+
+		return $el;
+	}
 }
 
 export const title: angular.IComponentOptions = {
   template: require('./title.html'),
-  require: {
-    MainController: '^app'
-  },
   controller: TitleController,
   controllerAs: '$titleCtrl'
 };

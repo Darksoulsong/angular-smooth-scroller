@@ -5,7 +5,7 @@ import * as angular from 'angular';
 import {techsModule} from './app/techs/index';
 import 'angular-ui-router';
 import routesConfig from './routes';
-import {angularSmoothScrollModule} from './app/angular-smooth-scroll/index';
+import {angularSmoothScrollerModule} from './app/angular-smooth-scroller/index';
 
 import {main} from './app/main';
 import {header} from './app/header';
@@ -15,7 +15,7 @@ import {footer} from './app/footer';
 import './index.scss';
 
 angular
-  .module('app', [techsModule, angularSmoothScrollModule, 'ui.router'])
+  .module('app', [techsModule, angularSmoothScrollerModule, 'ui.router'])
   .config(routesConfig)
   .component('app', main)
   .component('fountainHeader', header)
