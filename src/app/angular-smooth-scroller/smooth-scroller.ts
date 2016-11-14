@@ -35,8 +35,7 @@ export class SmoothScroller {
 		this.mainContainer = this.mainContainer || this.$window;
 
 		if (element) {
-			// startY = this.getPosition(this.mainContainer);
-			startY = this.getPosition(element as HTMLElement);
+			startY = this.getPosition(this.mainContainer);
 			stopY = this.getElementY(element);
 			distance = stopY > startY ? stopY - startY : startY - stopY;
 
@@ -76,21 +75,39 @@ export class SmoothScroller {
         return el.constructor.name === 'Object' && 'bind' in el;
     }
 
-	private getPosition (container: HTMLElement | Window): number {
-		if (container instanceof Window) {
-			return container.pageYOffset;
+	private getPosition (elem: HTMLElement | Window): number {
+		if (elem instanceof Window) {
+			return elem.pageYOffset;
 		}
-		return container.scrollTop;
-		// return container.getBoundingClientRect().top;
+		return elem.scrollTop;
+		// return elem.getBoundingClientRect().top;
+		// let containerTop = this.mainContainer.getBoundingClientRect().top;
+		// // let elemTop = elem.getBoundingClientRect().top;
+		// return containerTop;
 	}
 
-	private elementHasScrollbar (el: HTMLElement | Node, horizontal?: boolean): boolean {
+	private elementHasScrollbar (el: HTMLElement, horizontal?: boolean): boolean {
 		let method = horizontal ? 'Width' : 'Height';
-		return el[`scroll${method}`] > el[`client${method}`];
+		let gap = 100;
+		let elementHasLayout = el[`scroll${method}`] > 0;
+		let hasScrollbar;
+
+		// Check if element has layout
+		if (!elementHasLayout) {
+			el.style.display = 'block';
+		}
+
+		hasScrollbar = (el[`scroll${method}`] + gap) > el[`client${method}`];
+
+		if (!elementHasLayout) {
+			el.style.display = '';
+		}
+
+		return (el[`scroll${method}`] + gap) > el[`client${method}`];
 	}
 
-	private getFirstParentNodeWithScrollbars (el: any): Node {
-		let elem: Node = typeof el === 'string' ? document.getElementById(el) : el;
+	private getFirstParentNodeWithScrollbars (el: any): HTMLElement {
+		let elem: Node = typeof el === 'string' ? document.querySelector(el) : el;
 		while (elem) {
 			if (this.elementHasScrollbar(elem)) {
 				break;
@@ -98,17 +115,19 @@ export class SmoothScroller {
 				elem = elem.parentNode;
 			}
 		}
-		return elem;
+		return elem as HTMLElement;
 	}
 
 	private getElementY (element: any): number {
-		let y = element.offsetTop;
+		// let y = element.offsetTop;
 
-		while (!this.elementHasScrollbar(element)) {
-			y += element.offsetTop;
-			element = element.offsetParent;
-		}
-		return y;
+		// while (!this.elementHasScrollbar(element)) {
+		// 	y += element.offsetTop;
+		// 	element = element.offsetParent;
+		// }
+		// return y;
+		let parentWithScrollbars = this.getFirstParentNodeWithScrollbars(element);
+		return parentWithScrollbars.offsetTop;
 	}
 
 	/**
