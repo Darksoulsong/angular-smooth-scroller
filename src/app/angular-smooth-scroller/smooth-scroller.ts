@@ -4,8 +4,8 @@ import {ElementHelper} from './element-helper';
 export class SmoothScroller {
 	static $inject = ['$q', '$window'];
 
-	elementHelper: ElementHelper;
-	easingFunctions: EasingFunctions;
+	private elementHelper: ElementHelper;
+	private easingFunctions: EasingFunctions;
 
 	constructor (private $q: ng.IQService, private $window: any) {
 		this.elementHelper = new ElementHelper();

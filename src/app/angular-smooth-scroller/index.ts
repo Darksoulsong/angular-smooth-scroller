@@ -1,9 +1,18 @@
-import * as angular from 'angular';
+// import * as angular from 'angular';
 import {SmoothScroller} from './smooth-scroller';
 
-export const angularSmoothScrollerModule = 'angularSmoothScroll';
+export const angularSmoothScrollerModule = 'angularSmoothScroller';
 export {SmoothScroller};
 
-angular
+interface IWindow extends Window {
+    angular: {
+        module: any,
+        service: any
+    };
+}
+
+let win = window as IWindow;
+
+win.angular
     .module(angularSmoothScrollerModule, [])
-    .service('angularSmoothScroller', SmoothScroller);
+    .factory('angularSmoothScroller', ['$q', '$window', ($q, $window) => new SmoothScroller($q, $window)]);

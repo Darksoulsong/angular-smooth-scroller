@@ -1,3 +1,5 @@
+import {ElementNotFoundError} from './errors';
+
 export class ElementHelper {
     mainContainer: HTMLElement;
 
@@ -34,8 +36,16 @@ export class ElementHelper {
     getElementY (element: any): number {
 		let scrollableParent = this.mainContainer || this.getFirstParentNodeWithScrollbars(element);
 		let parentTop = scrollableParent.offsetTop;
-		let elementTop = element.offsetTop;
-		let elementDistanceFromTop = elementTop -  parentTop;
+		let elementTop = 0;
+		let elementDistanceFromTop;
+
+		while (element !== scrollableParent) {
+			elementTop += element.offsetTop;
+			element = element.offsetParent;
+		}
+
+		elementDistanceFromTop = elementTop -  parentTop;
+
 		return elementDistanceFromTop;
 	}
 
@@ -51,17 +61,20 @@ export class ElementHelper {
 		return elem as HTMLElement;
 	}
 
-    setMainContainer (containerElementId: string | HTMLElement | ng.IAugmentedJQuery) {
+    setMainContainer (containerElement: string | HTMLElement | ng.IAugmentedJQuery) {
 		let container;
 
-		if (typeof containerElementId === 'string') {
-			container = document.querySelector(containerElementId);
+		if (typeof containerElement === 'string') {
+			container = document.querySelector(containerElement);
 		}
-		if (this.isHTMLElement(containerElementId)) {
-			container = containerElementId;
+		if (this.isHTMLElement(containerElement)) {
+			container = containerElement;
 		}
-		if (this.isJQuery(containerElementId)) {
-			container = containerElementId[0];
+		if (this.isJQuery(containerElement)) {
+			container = containerElement[0];
+		}
+		if (!container) {
+			throw new ElementNotFoundError(containerElement);
 		}
 
 		this.mainContainer = container;
