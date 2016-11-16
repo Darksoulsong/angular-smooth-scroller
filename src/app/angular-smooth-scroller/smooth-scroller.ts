@@ -89,7 +89,9 @@ export class SmoothScroller {
 
 		(function checkEasing () {
 			if (!self.easingFunctions.has(easing)) {
-                throw new Error(`Invalid easing option ${easing}. Try ${self.easingFunctions.list().join(' or ')} instead.`);
+                throw new Error(
+					`Invalid easing option ${easing}. Try ${self.easingFunctions.list().join(' or ')} instead.`
+				);
 			}
 		})();
 
