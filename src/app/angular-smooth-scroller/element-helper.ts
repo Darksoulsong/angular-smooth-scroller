@@ -39,7 +39,7 @@ export class ElementHelper {
 		let elementTop = 0;
 		let elementDistanceFromTop;
 
-		while (element !== scrollableParent) {
+		while (element !== scrollableParent.offsetParent) {
 			elementTop += element.offsetTop;
 			element = element.offsetParent;
 		}
