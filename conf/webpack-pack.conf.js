@@ -1,15 +1,25 @@
 const webpack = require('webpack');
 const conf = require('./gulp.conf');
 const path = require('path');
+const fs = require("fs");
 
 const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 const uglify = process.argv.indexOf('--uglify') !== -1;
-console.log(process.argv)
 
-const config = {};
-config.module = {
+const minified = {};
+const stripComments = {};
+
+function extend (from, target) {
+  for (var key in from) {
+    if (from.hasOwnProperty(key)) {
+      target[key] = from[key];
+    }
+  }
+}
+
+minified.module = {
   loaders: [{
     test: /\.ts$/,
     exclude: /node_modules/,
@@ -19,20 +29,22 @@ config.module = {
     ]
   }]
 };
-config.plugins = [
+minified.plugins = [
   new webpack.optimize.OccurrenceOrderPlugin(), 
   new webpack.NoErrorsPlugin(),
   new webpack.optimize.UglifyJsPlugin({
     compress: {unused: true, dead_code: true, warnings: false} // eslint-disable-line camelcase
   }),
-  new UnminifiedWebpackPlugin()
+  new webpack.BannerPlugin(fs.readFileSync('./LICENSE', 'utf8')),
+  // new UnminifiedWebpackPlugin(),
+  // new webpack.optimize.CommonsChunkPlugin({name: 'vendor'})
 ];
-config.output = {
+minified.output = {
   path: path.join(process.cwd(), conf.paths.pack),
   // filename: '[name]-[hash].js'
   filename: '[name].min.js'
 };
-config.resolve = {
+minified.resolve = {
   extensions: [
     '',
     '.webpack.js',
@@ -41,25 +53,30 @@ config.resolve = {
     '.ts'
   ]
 };
-config.entry = {
-  // app: `./${conf.path.src('index')}`,
+minified.entry = {
   'angular-smooth-scroller': `./${conf.path.src('app/angular-smooth-scroller/index')}`,
 };
-config.ts = {
+minified.ts = {
   configFileName: 'tsconfig.json'
 };
-config.tslint = {
+minified.tslint = {
   configuration: require('../tslint.json')
 };
 
-// if (uglify) {
-//   console.log('Uglifying...');
-//   config.plugins.push(
-//     new webpack.optimize.UglifyJsPlugin({
-//       compress: {unused: true, dead_code: true, warnings: false} // eslint-disable-line camelcase
-//     })
-//   );
-//   config.entry['angular-smooth-scroller.min'] = config.entry['angular-smooth-scroller'];
-// }
+extend(minified, stripComments);
+stripComments.plugins = [ 
+  new webpack.optimize.OccurrenceOrderPlugin(), 
+  new webpack.NoErrorsPlugin(),
+  new webpack.optimize.UglifyJsPlugin({
+    comments: false,
+    beautify: true,
+    mangle: false
+  }),
+  new webpack.BannerPlugin(fs.readFileSync('./LICENSE', 'utf8'))
+];
+stripComments.output = {
+  path: path.join(process.cwd(), conf.paths.pack),  
+  filename: '[name].js'
+};
 
-module.exports = config;
+module.exports = [minified, stripComments];

@@ -1,10 +1,23 @@
 {
+  "name": "angular-smooth-scroller",
+  "version": "1.0.0",
+  "description": "An angular service that scrolls the page or element",
+  "private": false,
+  "main": "./pack/angular-smooth-scroller.min.js",
+  "homepage": "https://github.com/Darksoulsong/angular-smooth-scroller",
+  "keywords": [
+    "angular", "service", "scroll", "page scroll", "animated scroll", "smooth scroll"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Darksoulsong/angular-smooth-scroller.git"
+  },
   "dependencies": {
-    "angular": "^1.5.0",
-    "angular-ui-router": "1.0.0-beta.1",
-    "lodash": "^4.16.6"
+    "angular": "^1.5.0"
   },
   "devDependencies": {
+    "lodash": "^4.16.6",
+    "angular-ui-router": "1.0.0-beta.1",
     "angular-mocks": "^1.5.0-beta.2",
     "autoprefixer": "^6.2.2",
     "babel-eslint": "^6.0.2",
