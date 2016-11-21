@@ -1,6 +1,15 @@
-# angular-smooth-scroller
+# angularSmoothScroller
 
 This is an angular service that smoothly scrolls the page or the chosen scrollable element to a given target element vertical position. 
+
+## Installation
+Install it with npm:
+
+    npm install angularSmoothScroller
+
+Install it with bower:
+
+    bower install angularSmoothScroller
 
 ## Usage
 
@@ -40,5 +49,6 @@ This is an angular service that smoothly scrolls the page or the chosen scrollab
 - @param { number } `speed` The scrolling speed (in ms).
 - @param { number } `offset` The distance between the top of the viewport to the target element. Default: `0`;
 - @param { string } `easingFn` The easing function name. Default: `easeInOutQuint`. Other options: `easeOutSine`, `easeInOutSine` and `easeInOutQuint`.
+- @returns Promise 
 
 **NOTE:** The scrollable element must have a vertical scrollbar. Only vertical scrolling is supported ATM.
