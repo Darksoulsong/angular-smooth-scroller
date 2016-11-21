@@ -1,6 +1,8 @@
 {
   "name": "angular-smooth-scroller",
+  "homepage": "https://github.com/Darksoulsong/angular-smooth-scroller",
   "description": "An angular service that scrolls the page or element",
+  "version": "1.0.0",
   "main": "./pack/angular-smooth-scroller.min.js",
   "authors": [
     "Thyago Weber <thyago.weber@gmail.com>"
@@ -17,12 +19,14 @@
     "smooth",
     "scroll"
   ],
-  "homepage": "https://github.com/Darksoulsong/angular-smooth-scroller",
   "ignore": [
-    "**/.*",
+    "**/.*", 
     "node_modules",
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "angular": "^1.5.8"
+  }
 }
