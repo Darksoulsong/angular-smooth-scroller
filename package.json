@@ -1,6 +1,6 @@
 {
   "name": "angular-smooth-scroller",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "An angular service that scrolls the page or element",
   "private": false,
   "main": "./pack/angular-smooth-scroller.min.js",
