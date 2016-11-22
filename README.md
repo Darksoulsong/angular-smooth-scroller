@@ -46,12 +46,12 @@ Param | Type | Description | Default Value | Options
 ------| ---- | ----------- | ------------- | -------
 elementSelector | `string | HTMLElement` | The element selector or object | `window` | --    
 
-### `angularSmoothScroller.scrollTo(el, speed, offset, easingFn')`
+### `angularSmoothScroller.scrollTo(el, speed, offset, easingFn)`
 Param | Type | Description | Default Value | Options
 ------| ---- | ----------- | ------------- | -------
 el | `string | HTMLElement` | The element selector or object | `window` | --    
 speed | `number` | The scrolling speed (in ms) | `2000` | --
-offset | `number` | The distance between the top of the viewport to the target element | `0` | --   
+offset | `number` | The distance between the top of the viewport and the target element | `0` | --   
 easingFn | `string` | The easing function name. | `easeInOutQuint` | `easeOutSine`, `easeInOutSine` and `easeInOutQuint`
 
 @returns `Promise` 
