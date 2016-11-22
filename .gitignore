@@ -7,3 +7,4 @@ typings/
 .typingsrc
 .vscode/
 .yo-rc.json
+.bowerrc

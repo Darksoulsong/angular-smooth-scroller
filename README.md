@@ -5,11 +5,11 @@ This is an angular service that smoothly scrolls the page or the chosen scrollab
 ## Installation
 Install it with npm:
 
-    npm install angularSmoothScroller
+    npm install angular-smooth-scroller
 
 Install it with bower:
 
-    bower install angularSmoothScroller
+    bower install angular-smooth-scroller
 
 ## Usage
 
@@ -22,9 +22,9 @@ Install it with bower:
 2. Inject the `angularSmoothScroller` service into your controller:
 
     ```javascript
-    myApp.controller('AppController', function ( angularSmoothScroller ) {
+    myApp.controller( 'AppController', function ( angularSmoothScroller ) {
         // your code here
-    });
+    } );
     ```
 
 3. Set the scrollable element (default is `window`):
@@ -42,13 +42,18 @@ Install it with bower:
 ## Methods
 
 ### `angularSmoothScroller.setScrollableContainer(elementSelector)`
-- @param { string | HTMLElement } `elementSelector` The element selector. Defaults to `window`. 
+Param | Type | Description | Default Value | Options
+------| ---- | ----------- | ------------- | -------
+elementSelector | `string | HTMLElement` | The element selector or object | `window` | --    
 
 ### `angularSmoothScroller.scrollTo(el, speed, offset, easingFn')`
-- @param { string | HTMLElement } `el` The element selector.
-- @param { number } `speed` The scrolling speed (in ms).
-- @param { number } `offset` The distance between the top of the viewport to the target element. Default: `0`;
-- @param { string } `easingFn` The easing function name. Default: `easeInOutQuint`. Other options: `easeOutSine`, `easeInOutSine` and `easeInOutQuint`.
-- @returns Promise 
+Param | Type | Description | Default Value | Options
+------| ---- | ----------- | ------------- | -------
+el | `string | HTMLElement` | The element selector or object | `window` | --    
+speed | `number` | The scrolling speed (in ms) | `2000` | --
+offset | `number` | The distance between the top of the viewport to the target element | `0` | --   
+easingFn | `string` | The easing function name. | `easeInOutQuint` | `easeOutSine`, `easeInOutSine` and `easeInOutQuint`
+
+@returns `Promise` 
 
 **NOTE:** The scrollable element must have a vertical scrollbar. Only vertical scrolling is supported ATM.

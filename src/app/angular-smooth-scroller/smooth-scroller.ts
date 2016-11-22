@@ -21,7 +21,7 @@ export class SmoothScroller {
 	 * Scroll the scrollable element to the given element position
 	 * with an offset (if provided)
 	 */
-	scrollTo (el: string | HTMLElement, speed: number, offset: number = 0, easingFn: string = 'easeInOutQuint') {
+	scrollTo (el: string | HTMLElement, speed: number = 2000, offset: number = 0, easingFn: string = 'easeInOutQuint') {
 		let element = typeof el === 'string' ? document.querySelector(el) : el;
 		let startY;
 		let stopY;
@@ -69,7 +69,7 @@ export class SmoothScroller {
 	/**
 	 * Scroll the scrollable element to the given Y position
 	 */
-	private scrollToY (scrollTargetY: number = 0, speed: number = 2000, easing: string = 'easeOutSine', callback?: Function) {
+	private scrollToY (scrollTargetY: number = 0, speed: number, easing: string = 'easeOutSine', callback?: Function) {
 		const self = this;
 		const deferred = this.$q.defer();
 		let currentTime = 0;
