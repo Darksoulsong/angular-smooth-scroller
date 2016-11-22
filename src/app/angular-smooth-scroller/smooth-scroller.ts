@@ -37,7 +37,6 @@ export class SmoothScroller {
 			stopY = this.elementHelper.getElementY(element);
 			distance = stopY > startY ? stopY - startY : startY - stopY;
 
-			if (distance === startY) { stopY = startY; }
 			if (distance > offset) { stopY = stopY - offset; }
 
 			this.scrollToY(stopY, speed, easingFn)

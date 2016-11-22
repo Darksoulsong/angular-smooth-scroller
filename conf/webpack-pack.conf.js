@@ -68,6 +68,7 @@ stripComments.plugins = [
   new webpack.optimize.OccurrenceOrderPlugin(), 
   new webpack.NoErrorsPlugin(),
   new webpack.optimize.UglifyJsPlugin({
+    compress: false,
     comments: false,
     beautify: true,
     mangle: false
@@ -79,4 +80,4 @@ stripComments.output = {
   filename: '[name].js'
 };
 
-module.exports = [minified, stripComments];
+module.exports = [stripComments, minified];

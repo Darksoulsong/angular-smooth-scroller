@@ -1,9 +1,9 @@
 {
   "name": "angular-smooth-scroller",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "homepage": "https://github.com/Darksoulsong/angular-smooth-scroller",
-  "description": "An angular service that scrolls the page or element",
-  "main": "./pack/angular-smooth-scroller.min.js",
+  "description": "An angular service that scrolls the page or element to a given vertical position",
+  "main": "./pack/angular-smooth-scroller.js",
   "authors": [
     "Thyago Weber <thyago.weber@gmail.com>"
   ],

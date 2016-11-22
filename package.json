@@ -1,9 +1,9 @@
 {
   "name": "angular-smooth-scroller",
-  "version": "1.0.3",
-  "description": "An angular service that scrolls the page or element",
+  "version": "1.0.4",
+  "description": "An angular service that scrolls the page or element to a given vertical position",
   "private": false,
-  "main": "./pack/angular-smooth-scroller.min.js",
+  "main": "./pack/angular-smooth-scroller.js", 
   "homepage": "https://github.com/Darksoulsong/angular-smooth-scroller",
   "keywords": [
     "angular", "service", "scroll", "page scroll", "animated scroll", "smooth scroll"
