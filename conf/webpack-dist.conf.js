@@ -25,7 +25,10 @@ module.exports = {
       },
       {
         test: /\.ts$/,
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules/,
+          /\.spec.ts$/
+        ],
         loaders: [
           'ng-annotate',
           'ts'

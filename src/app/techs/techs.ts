@@ -1,24 +1,26 @@
+import {ITechService} from './tech-service';
+
 class Tech {
-  constructor(
-    public logo: string,
-    public title: string,
-    public text1: string,
-    public text2: string
-  ) {}
+	constructor(
+		public logo: string,
+		public title: string,
+		public text1: string,
+		public text2: string
+	) {}
 }
 
 
 class TechsController {
-  public techs: Tech[];
+  	public techs: Tech[];
 
-  /** @ngInject */
-  constructor(private $http: angular.IHttpService) {
-    $http
-      .get('app/techs/techs.json')
-      .then(response => {
-        this.techs = response.data as Tech[];
-      });
-  }
+  	/** @ngInject */
+	constructor(private $http: angular.IHttpService, private fountainTechService: ITechService) {
+
+		this.fountainTechService.list()
+			.then((data) => {
+				this.techs = data;
+		});
+	}
 }
 
 export const techs: angular.IComponentOptions = {

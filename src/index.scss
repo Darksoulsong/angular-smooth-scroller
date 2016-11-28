@@ -42,7 +42,6 @@ a {
   flex: 1;
   text-align: right;
   margin: 1rem;
-  white: white;
 }
 
 .title {
@@ -55,7 +54,7 @@ a {
 }
 .title-h1 {
   font-weight: 300;
-  font-size: 4rem;
+  font-size: 3rem;
   margin: 1rem;
 }
 .title-logo {
@@ -139,6 +138,10 @@ a {
 
 .display {
 	text-align: center;
+}
+
+.display-container {
+  height: 250px;
 }
 
 .toolbar {
